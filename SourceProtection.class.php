@@ -79,12 +79,12 @@ class SourceProtection {
 			);
 			// Also disable the version difference options
 			if ( isset( $_GET['diff'] ) ) {
-				return false;
+				return ["no access"];
 			}
 			if ( isset( $_GET['action'] ) ) {
 				$actie = $_GET['action'];
 				if ( in_array( $actie, $actionNotAllowed ) ) {
-					return false;
+					return ["no access"];
 				}
 			}
 
