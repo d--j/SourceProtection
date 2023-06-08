@@ -1,4 +1,7 @@
 <?php
+
+use MediaWiki\MediaWikiServices;
+
 /**
  * sourceProtection
  *
@@ -26,13 +29,9 @@ class SourceProtection {
 			}
 		}
 		// grab user permissions
-		if ( method_exists( $sktemplate, 'getTitle' ) ) {
-			$title = $sktemplate->getTitle();
-		} else {
-			$title = $sktemplate->mTitle;
-		}
-
-		$user_can_edit = $title->userCan( 'edit' );
+		$title = $sktemplate->getTitle();
+		$user = RequestContext::getMain()->getUser();
+		$user_can_edit = MediaWikiServices::getInstance()->getPermissionManager()->userCan( 'edit', $user, $title );
 
 		//remove form_edit and history when edit is disabled
 		if ( $user_can_edit === false ) {
@@ -50,15 +49,19 @@ class SourceProtection {
 
 	/**
 	 * If a user has no edit rights, then make sure it is hard for them to view the source of a document
-	 * @param $title
-	 * @param $wgUser
+	 * @param title $title
+	 * @param User $user
 	 * @param $action
 	 * @param $result
 	 *
 	 * @return bool
 	 */
-	public static function disableActions( &$title, &$wgUser, $action, &$result ) {
-		if ( in_array( 'edit', $wgUser->getRights(), true ) ) {
+	public static function disableActions( Title $title, User $user, $action, &$result ) {
+		if ( $title->isSpecialPage() || ! $title->exists() ) {
+			return true;
+		}
+		$rights = MediaWikiServices::getInstance()->getPermissionManager()->getUserPermissions( $user );
+		if ( in_array( 'edit', $rights, true ) ) {
 			return true;
 		} else {
 			// define the actions to be blocked
@@ -99,12 +102,9 @@ class SourceProtection {
 	 */
 	public static function doNotShowReadOnlyForm( EditPage $editPage, OutputPage $output ) {
 
-		if ( method_exists( $editPage, 'getTitle' ) ) {
-			$title = $editPage->getTitle();
-		} else {
-			$title = $editPage->mTitle;
-		}
-		$user_can_edit = $title->userCan( 'edit' );
+		$title = $editPage->getTitle();
+		$user = RequestContext::getMain()->getUser();
+		$user_can_edit = MediaWikiServices::getInstance()->getPermissionManager()->userCan( 'edit', $user, $title );
 		if ( ! $user_can_edit ) {
 			$output->redirect( $editPage->getContextTitle() );
 		}
