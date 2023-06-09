@@ -9,10 +9,12 @@ It will also block the viewing of the readonly form.
 
 1.1.2 Checked compatibility with 1.35+. No major changes, just typos or comments added
 
+1.1.3 MediaWiki 1.39x compatible
+
 ### Compatibility
 
-* PHP 5.4+
-* MediaWiki 1.24+
+* PHP 8+
+* MediaWiki 1.39+
 
 
 ### Installation

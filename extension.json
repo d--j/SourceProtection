@@ -5,7 +5,7 @@
 		"Sen-Sai"
 	],
 	"license-name": "GPL-2.0+",
-	"url": "https://github.com/Sen-Sai/SourceProtection",
+	"url": "https://www.mediawiki.org/wiki/Extension:SourceProtection",
 	"descriptionmsg": "sourceprotection-desc",
 	"MessagesDirs": {
 		"SourceProtection": [

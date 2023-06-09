@@ -54,7 +54,7 @@ class SourceProtection {
 	 * @param $action
 	 * @param $result
 	 *
-	 * @return bool
+	 * @return mixed
 	 */
 	public static function disableActions( Title $title, User $user, $action, &$result ) {
 		if ( $title->isSpecialPage() || ! $title->exists() ) {
