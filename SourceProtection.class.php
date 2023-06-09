@@ -9,12 +9,11 @@ use MediaWiki\MediaWikiServices;
  * @license https://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
  *
  */
-
-
 class SourceProtection {
 
 	/**
 	 * Dive into the skin. Check if a user may edit. If not, remove tabs.
+	 *
 	 * @param SkinTemplate $sktemplate
 	 * @param array $links
 	 *
@@ -29,13 +28,18 @@ class SourceProtection {
 			}
 		}
 		// grab user permissions
-		$title = $sktemplate->getTitle();
-		$user = RequestContext::getMain()->getUser();
-		$user_can_edit = MediaWikiServices::getInstance()->getPermissionManager()->userCan( 'edit', $user, $title );
+		$title         = $sktemplate->getTitle();
+		$user          = RequestContext::getMain()->getUser();
+		$user_can_edit = MediaWikiServices::getInstance()->getPermissionManager()->userCan( 'edit',
+			$user,
+			$title );
 
 		//remove form_edit and history when edit is disabled
 		if ( $user_can_edit === false ) {
-			$rem = array( 'form_edit', 'history' );
+			$rem = array(
+				'form_edit',
+				'history'
+			);
 			foreach ( $rem as $v ) {
 				if ( isset( $links['views'][ $v ] ) ) {
 					unset( $links['views'][ $v ] );
@@ -44,11 +48,11 @@ class SourceProtection {
 		}
 
 		return true;
-
 	}
 
 	/**
 	 * If a user has no edit rights, then make sure it is hard for them to view the source of a document
+	 *
 	 * @param title $title
 	 * @param User $user
 	 * @param $action
@@ -57,11 +61,13 @@ class SourceProtection {
 	 * @return mixed
 	 */
 	public static function disableActions( Title $title, User $user, $action, &$result ) {
-		if ( $title->isSpecialPage() || ! $title->exists() ) {
+		if ( $title->isSpecialPage() || !$title->exists() ) {
 			return true;
 		}
 		$rights = MediaWikiServices::getInstance()->getPermissionManager()->getUserPermissions( $user );
-		if ( in_array( 'edit', $rights, true ) ) {
+		if ( in_array( 'edit',
+			$rights,
+			true ) ) {
 			return true;
 		} else {
 			// define the actions to be blocked
@@ -79,12 +85,13 @@ class SourceProtection {
 			);
 			// Also disable the version difference options
 			if ( isset( $_GET['diff'] ) ) {
-				return ["no access"];
+				return [ "no access" ];
 			}
 			if ( isset( $_GET['action'] ) ) {
 				$actie = $_GET['action'];
-				if ( in_array( $actie, $actionNotAllowed ) ) {
-					return ["no access"];
+				if ( in_array( $actie,
+					$actionNotAllowed ) ) {
+					return [ "no access" ];
 				}
 			}
 
@@ -95,6 +102,7 @@ class SourceProtection {
 
 	/**
 	 * Prevent ShowReadOnly form to be shown. We should never get here anymore, but just in case.
+	 *
 	 * @param EditPage $editPage
 	 * @param OutputPage $output
 	 *
@@ -102,10 +110,12 @@ class SourceProtection {
 	 */
 	public static function doNotShowReadOnlyForm( EditPage $editPage, OutputPage $output ) {
 
-		$title = $editPage->getTitle();
-		$user = RequestContext::getMain()->getUser();
-		$user_can_edit = MediaWikiServices::getInstance()->getPermissionManager()->userCan( 'edit', $user, $title );
-		if ( ! $user_can_edit ) {
+		$title         = $editPage->getTitle();
+		$user          = RequestContext::getMain()->getUser();
+		$user_can_edit = MediaWikiServices::getInstance()->getPermissionManager()->userCan( 'edit',
+			$user,
+			$title );
+		if ( !$user_can_edit ) {
 			$output->redirect( $editPage->getContextTitle() );
 		}
 
