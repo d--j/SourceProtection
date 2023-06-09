@@ -9,6 +9,8 @@ It will also block the viewing of the readonly form.
 
 1.1.2 Checked compatibility with 1.35+. No major changes, just typos or comments added
 
+1.1.3 Version bumb for MW 1.39 branch
+
 ### Compatibility
 
 * PHP 5.4+
