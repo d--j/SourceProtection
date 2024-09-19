@@ -85,13 +85,14 @@ class SourceProtection {
 			);
 			// Also disable the version difference options
 			if ( isset( $_GET['diff'] ) ) {
-				return [ "no access" ];
+				$result = wfMessage( 'sourceprotection-no-access');
+				return false;
 			}
 			if ( isset( $_GET['action'] ) ) {
-				$actie = $_GET['action'];
-				if ( in_array( $actie,
-					$actionNotAllowed ) ) {
-					return [ "no access" ];
+				$getAction = $_GET['action'];
+				if ( in_array( $getAction, $actionNotAllowed ) ) {
+					$result = wfMessage( 'sourceprotection-no-access');
+					return false;
 				}
 			}
 

@@ -11,6 +11,8 @@ It will also block the viewing of the readonly form.
 
 1.1.3 MediaWiki 1.39x compatible
 
+1.1.4 Fix Permission error page (getUserPermissionsErrors hook)
+
 ### Compatibility
 
 * PHP 8+

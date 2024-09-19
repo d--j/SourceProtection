@@ -4,5 +4,6 @@
                         "Sen-Sai"
                 ]
         },
-        "sourceprotection-desc": "Removes View Source tab and (if Pageforms is installed the edit-Form tab) & History tab from menu and disable as many action functions for users with no edit permissions. It will also block the viewing of the readonly form."
+        "sourceprotection-desc": "Removes View Source tab and (if Pageforms is installed the edit-Form tab) & History tab from menu and disable as many action functions for users with no edit permissions. It will also block the viewing of the readonly form.",
+        "sourceprotection-no-access": "You are not allowed to do this action. <span class=\"plainlinks\">[{{fullurl:Special:ListUsers|group=sysop}} Contact an administrator]</span> when you think this is an error."
 }
